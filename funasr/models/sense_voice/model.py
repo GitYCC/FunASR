@@ -883,8 +883,8 @@ class SenseVoiceSmall(nn.Module):
             key = key * b
         for i in range(b):
             x = ctc_logits[i, : encoder_out_lens[i].item(), :]
-            yseq = x.argmax(dim=-1)
-            yseq = torch.unique_consecutive(yseq, dim=-1)
+            raw_yseq = x.argmax(dim=-1)
+            yseq = torch.unique_consecutive(raw_yseq, dim=-1)
 
             ibest_writer = None
             if kwargs.get("output_dir") is not None:
@@ -898,7 +898,7 @@ class SenseVoiceSmall(nn.Module):
             # Change integer-ids to tokens
             text = tokenizer.decode(token_int)
 
-            result_i = {"key": key[i], "text": text, "yseq": yseq}
+            result_i = {"key": key[i], "text": text, "raw": raw_yseq}
             results.append(result_i)
 
             if ibest_writer is not None:
