@@ -898,7 +898,7 @@ class SenseVoiceSmall(nn.Module):
             # Change integer-ids to tokens
             text = tokenizer.decode(token_int)
 
-            result_i = {"key": key[i], "text": text}
+            result_i = {"key": key[i], "text": text, "yseq": yseq}
             results.append(result_i)
 
             if ibest_writer is not None:
